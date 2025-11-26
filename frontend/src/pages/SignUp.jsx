@@ -87,10 +87,10 @@ function SignUp() {
     <div className="w-full max-w-md bg-white/80 backdrop-blur-md shadow-xl rounded-2xl p-8 border border-orange-100">
       {/* Logo */}
       <h2 className="text-4xl font-extrabold text-orange-500 mb-2 text-center">
-        Vingo
+        Student Forum
       </h2>
       <p className="text-gray-500 text-center mb-8">
-        Create an account to start exploring delicious meals 🍽️
+        Create an account to start learning and discuss a new things.
       </p>
 
       {/* FULL NAME */}

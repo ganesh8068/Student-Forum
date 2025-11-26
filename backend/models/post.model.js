@@ -22,7 +22,6 @@ const postSchema = new mongoose.Schema(
       maxlength: 2000,
     },
 
-    // store likes as an array of user ObjectIds (so we can prevent double-likes)
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -30,10 +29,8 @@ const postSchema = new mongoose.Schema(
       },
     ],
 
-    // comments subdocuments
     comments: [commentSchema],
 
-    // legacy numeric fields: keep them for compatibility but optional
     likesCount: {
       type: Number,
       default: 0,
@@ -45,8 +42,6 @@ const postSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-// Optional: helper virtuals could be added, but we will compute counts in controllers to keep it simple.
 
 const Post = mongoose.model("Post", postSchema);
 export default Post;
