@@ -59,7 +59,7 @@ function SignIn() {
         {
           fullName: result.user.displayName,
           email: result.user.email,
-          registrationNo: Date.now().toString(), // fallback
+          registrationNo: Date.now().toString(),
         },
         { withCredentials: true }
       );
