@@ -9,6 +9,7 @@ function Resources() {
   const [page, setPage] = useState(1);
   const [limit] = useState(20);
   const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   // upload form state
   const [file, setFile] = useState(null);
@@ -26,14 +27,14 @@ function Resources() {
   const fetchResources = async (p = 1) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${API}/api/resources/${resourceId}/share`,
-        { caption },
-        { withCredentials: true }
+      const res = await axios.get(
+        `${API}/api/resources?page=${p}&limit=${limit}`
       );
       setResources(res.data.resources || []);
+      setError("");
     } catch (err) {
       console.error("Fetch resources failed", err);
+      setError("Failed to load resources.");
     } finally {
       setLoading(false);
     }
@@ -86,13 +87,11 @@ function Resources() {
         { caption },
         { withCredentials: true }
       );
-
       const createdPost = res.data?.post;
       if (createdPost) {
-        setPosts((prev) => [createdPost, ...prev]);
-        alert("Shared to feed.");
+        alert("Resource shared to feed.");
       } else {
-        fetchPosts(1);
+        alert("Resource shared.");
       }
     } catch (err) {
       console.error("Share failed", err?.response?.data || err.message);
@@ -100,9 +99,23 @@ function Resources() {
     }
   };
 
+  const resolveUrl = (u) => (u?.startsWith("http") ? u : `${API}${u}`);
+
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Resources</h1>
+
+      <div className="mb-4 flex gap-2">
+        <input
+          placeholder="Search resources..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="flex-1 border px-3 py-2 rounded"
+        />
+        <button onClick={() => setPage(1)} className="px-3 py-2 border rounded">
+          Search
+        </button>
+      </div>
 
       {/* Upload box */}
       <div className="border rounded-lg p-4 mb-6 bg-white/80">
@@ -154,70 +167,78 @@ function Resources() {
         <div>No resources yet.</div>
       ) : (
         <div className="space-y-4">
-          {resources.map((r) => (
-            <div
-              key={r._id}
-              className="p-4 border rounded bg-white/80 flex justify-between items-start gap-4"
-            >
-              <div className="flex-1">
-                <div className="flex items-start gap-3">
-                  <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
-                    {r.mimeType?.startsWith("image/") ? (
-                      <img
-                        src={r.url}
-                        alt={r.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="text-3xl">📄</div>
-                    )}
-                  </div>
-
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start gap-4">
-                      <div>
-                        <div className="font-semibold text-lg">{r.title}</div>
-                        <div className="text-sm text-gray-500">
-                          {r.originalName}
-                        </div>
-                        <div className="text-xs text-gray-400">
-                          Uploaded by: {r.uploader?.fullName || "Unknown"}
-                        </div>
-                      </div>
-
-                      <div className="text-right text-xs text-gray-400">
-                        {new Date(r.createdAt).toLocaleString()}
-                        <div>{(r.size / 1024).toFixed(0)} KB</div>
-                      </div>
+          {resources
+            .filter((r) =>
+              [r.title, r.originalName, r.description]
+                .filter(Boolean)
+                .join(" ")
+                .toLowerCase()
+                .includes(query.toLowerCase())
+            )
+            .map((r) => (
+              <div
+                key={r._id}
+                className="p-4 border rounded bg-white/80 flex justify-between items-start gap-4"
+              >
+                <div className="flex-1">
+                  <div className="flex items-start gap-3">
+                    <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
+                      {r.mimeType?.startsWith("image/") ? (
+                        <img
+                          src={resolveUrl(r.url)}
+                          alt={r.title}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="text-3xl">📄</div>
+                      )}
                     </div>
 
-                    {r.description && (
-                      <div className="mt-2 text-sm text-gray-700">
-                        {r.description}
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start gap-4">
+                        <div>
+                          <div className="font-semibold text-lg">{r.title}</div>
+                          <div className="text-sm text-gray-500">
+                            {r.originalName}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            Uploaded by: {r.uploader?.fullName || "Unknown"}
+                          </div>
+                        </div>
+
+                        <div className="text-right text-xs text-gray-400">
+                          {new Date(r.createdAt).toLocaleString()}
+                          <div>{(r.size / 1024).toFixed(0)} KB</div>
+                        </div>
                       </div>
-                    )}
+
+                      {r.description && (
+                        <div className="mt-2 text-sm text-gray-700">
+                          {r.description}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="flex flex-col gap-2">
-                <a
-                  href={r.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-3 py-2 rounded bg-white border text-sm hover:bg-gray-50"
-                >
-                  View
-                </a>
-                <button
-                  onClick={() => handleShare(r._id)}
-                  className="px-3 py-2 rounded bg-orange-500 text-white text-sm"
-                >
-                  Share
-                </button>
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={resolveUrl(r.url)}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="px-3 py-2 rounded bg-white border text-sm hover:bg-gray-50"
+                  >
+                    View
+                  </a>
+                  <button
+                    onClick={() => handleShare(r._id)}
+                    className="px-3 py-2 rounded bg-orange-500 text-white text-sm"
+                  >
+                    Share
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       )}
 

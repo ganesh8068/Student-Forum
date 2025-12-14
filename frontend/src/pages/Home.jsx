@@ -363,8 +363,11 @@ function Home() {
           >
             About Us
           </li>
-          <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
-            Departments
+          <li
+            onClick={() => navigate("/resources")}
+            className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition"
+          >
+            Share Resources
           </li>
           <li
             onClick={() => navigate("/discussion-room")}

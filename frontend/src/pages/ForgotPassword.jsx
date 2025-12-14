@@ -67,40 +67,65 @@ function ForgotPassword() {
   };
 
   return (
-    <div className="flex w-full items-center justify-center min-h-screen p-5 bg-gradient-to-br from-orange-100 via-white to-orange-200">
-      <div className="backdrop-blur-md w-full max-w-md bg-white/70 border border-white shadow-xl rounded-2xl p-8">
-        {/* header */}
+    <div
+      className="flex items-center justify-center min-h-screen p-5"
+      style={{
+        backgroundColor: "var(--bg)",
+      }}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl p-8 shadow-xl backdrop-blur-md"
+        style={{
+          backgroundColor: "var(--card)",
+          border: "1px solid rgba(0,0,0,0.05)"
+        }}
+      >
+        {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <IoIosArrowRoundBack
             size={32}
-            className="text-orange-500 hover:text-orange-600 transition cursor-pointer"
+            className="cursor-pointer transition"
+            style={{ color: "var(--color-primary)" }}
             onClick={() => navigate("/signin")}
           />
-          <h1 className="text-2xl font-bold text-orange-600 tracking-wide">
+          <h1
+            className="text-2xl font-bold tracking-wide"
+            style={{ color: "var(--color-secondary)" }}
+          >
             Forgot Password
           </h1>
         </div>
 
-        {/* STEP 1 */}
+        {/* STEP 1 — Email */}
         {step === 1 && (
           <>
             <div className="mb-5">
-              <label className="block text-gray-700 font-medium mb-1">
+              <label
+                className="block font-medium mb-1"
+                style={{ color: "var(--text-dark)" }}
+              >
                 Email
               </label>
               <input
                 type="email"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 text-gray-800"
-                placeholder="Enter your Email"
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                className="w-full rounded-lg px-4 py-2.5 border focus:outline-none focus:ring-4 transition"
+                style={{
+                  borderColor: "#d1d5db",
+                  backgroundColor: "var(--card)",
+                  color: "var(--text-dark)",
+                  focusRingColor: "var(--color-primary)"
+                }}
                 value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
 
             <button
               onClick={handleSendOtp}
               disabled={loading}
-              className="w-full py-2.5 font-semibold bg-orange-500 text-white rounded-xl shadow hover:bg-orange-600 transition"
+              className="w-full py-2.5 rounded-xl font-semibold shadow-md transition flex justify-center"
+              style={{ backgroundColor: "var(--color-primary)", color: "white" }}
             >
               {loading ? <ClipLoader size={22} color="white" /> : "Send OTP"}
             </button>
@@ -109,26 +134,35 @@ function ForgotPassword() {
           </>
         )}
 
-        {/* STEP 2 */}
+        {/* STEP 2 — OTP */}
         {step === 2 && (
           <>
             <div className="mb-5">
-              <label className="block text-gray-700 font-medium mb-1">
+              <label
+                className="block font-medium mb-1"
+                style={{ color: "var(--text-dark)" }}
+              >
                 Enter OTP
               </label>
               <input
                 type="text"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 text-gray-800"
                 placeholder="Enter OTP"
-                onChange={(e) => setOtp(e.target.value)}
+                className="w-full rounded-lg px-4 py-2.5 border focus:outline-none focus:ring-4 transition"
+                style={{
+                  borderColor: "#d1d5db",
+                  backgroundColor: "var(--card)",
+                  color: "var(--text-dark)",
+                }}
                 value={otp}
+                onChange={(e) => setOtp(e.target.value)}
               />
             </div>
 
             <button
               onClick={handleVerifyOtp}
               disabled={loading}
-              className="w-full py-2.5 font-semibold bg-orange-500 text-white rounded-xl shadow hover:bg-orange-600 transition"
+              className="w-full py-2.5 rounded-xl font-semibold shadow-md transition flex justify-center"
+              style={{ backgroundColor: "var(--color-primary)", color: "white" }}
             >
               {loading ? <ClipLoader size={22} color="white" /> : "Verify OTP"}
             </button>
@@ -137,45 +171,58 @@ function ForgotPassword() {
           </>
         )}
 
-        {/* STEP 3 */}
+        {/* STEP 3 — Reset Password */}
         {step === 3 && (
           <>
             <div className="mb-5">
-              <label className="block text-gray-700 font-medium mb-1">
+              <label
+                className="block font-medium mb-1"
+                style={{ color: "var(--text-dark)" }}
+              >
                 New Password
               </label>
               <input
                 type="password"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 text-gray-800"
                 placeholder="Enter New Password"
-                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full rounded-lg px-4 py-2.5 border focus:outline-none focus:ring-4 transition"
+                style={{
+                  borderColor: "#d1d5db",
+                  backgroundColor: "var(--card)",
+                  color: "var(--text-dark)"
+                }}
                 value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
               />
             </div>
 
             <div className="mb-5">
-              <label className="block text-gray-700 font-medium mb-1">
+              <label
+                className="block font-medium mb-1"
+                style={{ color: "var(--text-dark)" }}
+              >
                 Confirm Password
               </label>
               <input
                 type="password"
-                className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-orange-500 text-gray-800"
                 placeholder="Confirm Password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full rounded-lg px-4 py-2.5 border focus:outline-none focus:ring-4 transition"
+                style={{
+                  borderColor: "#d1d5db",
+                  backgroundColor: "var(--card)",
+                  color: "var(--text-dark)"
+                }}
                 value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
             <button
               onClick={handleResetPassword}
               disabled={loading}
-              className="w-full py-2.5 font-semibold bg-orange-500 text-white rounded-xl shadow hover:bg-orange-600 transition"
+              className="w-full py-2.5 rounded-xl font-semibold shadow-md transition flex justify-center"
+              style={{ backgroundColor: "var(--color-primary)", color: "white" }}
             >
-              {loading ? (
-                <ClipLoader size={22} color="white" />
-              ) : (
-                "Reset Password"
-              )}
+              {loading ? <ClipLoader size={22} color="white" /> : "Reset Password"}
             </button>
 
             {err && <p className="text-red-500 text-center mt-3">*{err}</p>}

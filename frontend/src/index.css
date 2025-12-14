@@ -1,1 +1,126 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
+
+/* Palette (user-specified exact values) */
+:root {
+  --color-primary: #2a9d8f; /* Teal */
+  --color-secondary: #264653; /* Deep Blue-Green */
+  --color-accent: #e9c46a; /* Soft Yellow */
+  --color-bg: #f1faee; /* Background */
+  --color-card: #ffffff; /* Card */
+  --color-text-dark: #1d3557; /* Text Dark */
+  --color-text-soft: #457b9d; /* Text Soft */
+  --radius: 12px;
+  --shadow-sm: 0 6px 18px rgba(29, 53, 87, 0.06);
+}
+
+/* Dark theme variables */
+.dark {
+  --color-bg: #1a1a1a;
+  --color-card: #222222;
+  --color-text-dark: #e5e7eb;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+body {
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial;
+  background: var(--color-bg);
+  color: var(--color-text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Page load: fade-in-up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.animate-fade-up {
+  animation: fadeInUp 480ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+/* Card hover scale */
+.card-scale {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.card-scale:hover {
+  transform: scale(1.03);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Button hover glow using Accent */
+.btn-accent {
+  background: var(--color-primary);
+  color: white;
+  border-radius: 10px;
+}
+.btn-accent:hover {
+  box-shadow: 0 6px 22px rgba(233, 196, 106, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Floating micro-interaction */
+@keyframes floatMicro {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+.float-micro {
+  animation: floatMicro 4s ease-in-out infinite;
+}
+
+/* Skeleton */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.06) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shine 1.4s linear infinite;
+  border-radius: 8px;
+}
+@keyframes shine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Small helpers */
+.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius);
+}
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.muted {
+  color: var(--color-text-soft);
+}
+.accent {
+  color: var(--color-accent);
+}

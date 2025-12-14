@@ -8,9 +8,10 @@ function DiscussionRoom() {
     {
       id: "welcome",
       sender: "ai",
-      text: "Hi! 👋 I'm your AI assistant. Ask me any question related to studies, coding, exams, or projects.",
+      text: "Hi! 👋 I'm your AI assistant. Ask me anything about studies, coding, exams, or projects!",
     },
   ]);
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -36,10 +37,10 @@ function DiscussionRoom() {
         { question },
         { withCredentials: true }
       );
-      console.log(res);
 
       const answer =
-        res.data?.answer || "Sorry, I couldn't generate an answer.";
+        res.data?.answer || "Sorry, I couldn't generate an answer right now.";
+
       const aiMsg = {
         id: `ai_${Date.now()}`,
         sender: "ai",
@@ -48,13 +49,14 @@ function DiscussionRoom() {
 
       setMessages((prev) => [...prev, aiMsg]);
     } catch (error) {
-      console.error(error.message);
       setErr(error?.response?.data?.message || "AI request failed.");
+
       const aiMsg = {
         id: `ai_err_${Date.now()}`,
         sender: "ai",
         text: "Sorry, I had an issue answering your question. Please try again.",
       };
+
       setMessages((prev) => [...prev, aiMsg]);
     } finally {
       setLoading(false);
@@ -69,18 +71,36 @@ function DiscussionRoom() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 to-white">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{ backgroundColor: "var(--bg)" }}
+    >
       {/* Top bar */}
-      <header className="px-6 py-4 border-b bg-white/80 backdrop-blur-md flex items-center justify-between">
-        <h1 className="text-xl font-bold text-orange-600">Discussion Room</h1>
-        <p className="text-sm text-gray-500">
+      <header
+        className="px-6 py-4 border-b backdrop-blur-md flex items-center justify-between shadow-sm"
+        style={{ backgroundColor: "var(--card)", borderColor: "var(--accent)" }}
+      >
+        <h1
+          className="text-xl font-bold"
+          style={{ color: "var(--color-secondary)" }}
+        >
+          Discussion Room
+        </h1>
+
+        <p className="text-sm" style={{ color: "var(--text-soft)" }}>
           Ask your doubts & get instant AI help 🤖
         </p>
       </header>
 
       {/* Chat body */}
       <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full px-4 py-4">
-        <div className="flex-1 overflow-y-auto border rounded-2xl bg-white/80 shadow-sm p-4 space-y-3">
+        <div
+          className="flex-1 overflow-y-auto rounded-2xl shadow p-4 space-y-3"
+          style={{
+            backgroundColor: "var(--card)",
+            border: "1px solid rgba(0,0,0,0.05)",
+          }}
+        >
           {messages.map((m) => (
             <div
               key={m.id}
@@ -89,18 +109,32 @@ function DiscussionRoom() {
               }`}
             >
               <div
-                className={`max-w-[75%] px-3 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
+                className={`max-w-[75%] px-4 py-2 rounded-2xl text-sm whitespace-pre-wrap shadow-sm ${
                   m.sender === "user"
-                    ? "bg-orange-500 text-white rounded-br-sm"
-                    : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                    ? "rounded-br-sm text-white"
+                    : "rounded-bl-sm"
                 }`}
+                style={{
+                  backgroundColor:
+                    m.sender === "user" ? "var(--color-primary)" : "#e8f4f2",
+                  color:
+                    m.sender === "user"
+                      ? "white"
+                      : "var(--text-dark)",
+                }}
               >
                 {m.text}
               </div>
             </div>
           ))}
+
           {loading && (
-            <div className="text-xs text-gray-500 mt-2">AI is thinking...</div>
+            <div
+              className="text-xs mt-1"
+              style={{ color: "var(--text-soft)" }}
+            >
+              AI is thinking...
+            </div>
           )}
         </div>
 
@@ -108,18 +142,32 @@ function DiscussionRoom() {
         <div className="mt-4">
           <textarea
             rows={2}
-            className="w-full border rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="w-full px-3 py-2 rounded-xl border shadow-sm focus:outline-none"
+            style={{
+              borderColor: "var(--accent)",
+              backgroundColor: "var(--card)",
+              color: "var(--text-dark)",
+              boxShadow: "0 0 0 0 rgba(0,0,0,0)",
+            }}
             placeholder="Type your question here..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
           />
+
           <div className="mt-2 flex justify-between items-center">
-            <span className="text-sm text-red-500">{err && `* ${err}`}</span>
+            {err && (
+              <span className="text-sm text-red-500">* {err}</span>
+            )}
+
             <button
               onClick={handleSend}
               disabled={loading || !input.trim()}
-              className="px-5 py-2 rounded-xl bg-orange-500 text-white font-medium hover:bg-orange-600 disabled:opacity-50"
+              className="px-5 py-2 rounded-xl font-medium transition shadow-md disabled:opacity-50"
+              style={{
+                backgroundColor: "var(--color-primary)",
+                color: "white",
+              }}
             >
               {loading ? "Sending..." : "Ask AI"}
             </button>
