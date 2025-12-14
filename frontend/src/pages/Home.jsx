@@ -357,13 +357,19 @@ function Home() {
           <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
             Home
           </li>
-          <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
-            My Posts
+          <li
+            onClick={() => navigate("/about")}
+            className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition"
+          >
+            About Us
           </li>
           <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
             Departments
           </li>
-          <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
+          <li
+            onClick={() => navigate("/discussion-room")}
+            className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition"
+          >
             Discussion Rooms
           </li>
 

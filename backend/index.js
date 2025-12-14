@@ -9,6 +9,7 @@ import cors from "cors";
 import postRouter from "./routes/post.routes.js";
 import { UPLOAD_DIR } from "./config/multer.js";
 import resourceRouter from "./routes/resource.routes.js";
+import aiRouter from "./routes/ai.routes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use("/api/resources", resourceRouter);
 app.use("/uploads", express.static(UPLOAD_DIR));
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
+app.use("/api/ai", aiRouter);
 
 const port = process.env.PORT || 3000;
 
