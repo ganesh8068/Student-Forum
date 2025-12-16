@@ -39,8 +39,8 @@ function Home() {
   // fetch posts
   useEffect(() => {
     fetchPosts(page);
-    // eslint-disable-next-line
   }, [page]);
+
 
   useEffect(() => {
     const handler = (e) => {
@@ -55,8 +55,8 @@ function Home() {
   // fetch resources
   useEffect(() => {
     fetchResources(resPage);
-    // eslint-disable-next-line
   }, [resPage]);
+
 
   useEffect(() => {
     const loadCurrentUser = async () => {
@@ -66,6 +66,7 @@ function Home() {
         });
         setCurrentUser(res.data.user || null);
       } catch (err) {
+        console.error("Authentication check failed", err);
         setCurrentUser(null);
       }
     };
