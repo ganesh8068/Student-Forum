@@ -13,7 +13,7 @@ import aiRouter from "./routes/ai.routes.js";
 
 const app = express();
 
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "http://localhost:5173";
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "https://student-forum-f.onrender.com";
 
 app.use(
   cors({
