@@ -9,8 +9,6 @@ export const aiChat = async (req, res) => {
     if (!question || !question.trim()) {
       return res.status(400).json({ message: "Question is required." });
     }
-
-    // ✅ Use stable supported model
     const model = genAI.getGenerativeModel({
       model: "gemini-1.0-pro",
     });
