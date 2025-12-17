@@ -89,7 +89,7 @@ function SignUp() {
           className="text-4xl font-extrabold text-center"
           style={{ color: "var(--color-secondary)" }}
         >
-          Student Forum and community
+          Student Forum 
         </h2>
 
         <p

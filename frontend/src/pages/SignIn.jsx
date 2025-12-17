@@ -77,7 +77,7 @@ function SignIn() {
         {/* LEFT — Branding */}
         <div className="hidden md:flex flex-col justify-center px-8 fade-in-up">
           <h1 className="text-5xl font-semibold" style={{ color: "var(--color-secondary)" }}>
-            Student Forum
+            Student Forum & community
           </h1>
           <p className="mt-3 text-lg" style={{ color: "var(--text-soft)" }}>
             A community for students — share resources, ask questions, and collaborate.
