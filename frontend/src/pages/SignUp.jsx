@@ -75,7 +75,7 @@ function SignUp() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{ backgroundColor: "var(--bg)" }}
+      style={{ backgroundColor: "#ECF6F5" }}
     >
       <div
         className="w-full max-w-md p-8 rounded-2xl shadow-xl fade-in-up"
