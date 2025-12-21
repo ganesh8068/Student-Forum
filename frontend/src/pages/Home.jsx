@@ -147,7 +147,7 @@ function Home() {
     }
   };
 
-  // RESOURCE helper handlers (unchanged)
+  // RESOURCE helper handlers
   const handleResourceFileChange = (e) => {
     const f = e.target.files?.[0] ?? null;
     setResFile(f);
@@ -199,7 +199,6 @@ function Home() {
         { withCredentials: true }
       );
 
-      // server returns created post and updated resource (per backend)
       const createdPost = res.data?.post;
       const updatedResource = res.data?.resource;
       if (updatedResource) {
@@ -230,7 +229,6 @@ function Home() {
     }
   };
 
-  // LIKE handler (uses server as source-of-truth)
   const handleToggleLike = async (post) => {
     const postId = post._id;
     setLikePending((s) => ({ ...s, [postId]: true }));
@@ -259,7 +257,6 @@ function Home() {
     }
   };
 
-  // COMMENT handler
   const handleAddComment = async (post) => {
     const postId = post._id;
     const text = (commentText[postId] || "").trim();
@@ -325,7 +322,6 @@ function Home() {
         "Add comment failed:",
         err?.response?.data || err.message || err
       );
-      // revert optimistic
       setPosts((prev) =>
         prev.map((p) =>
           p._id === postId
@@ -343,46 +339,45 @@ function Home() {
     }
   };
 
-  // helper to build absolute url for attachments
   const buildAbsolute = (relUrl) => `${API}${relUrl}`;
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-orange-50 to-white text-gray-800">
+    <div className="flex min-h-screen bg-gradient-to-br from-[#e9f5f4] to-white text-gray-800">
       {/* Left Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 border-r bg-white/70 backdrop-blur-lg shadow-lg p-6">
-        <h2 className="text-2xl font-bold text-orange-600 mb-8 tracking-wide">
+      <aside className="hidden md:flex flex-col w-64 border-r bg-white/80 backdrop-blur-lg shadow-sm p-6">
+        <h2 className="text-2xl font-bold text-[#2a9d8f] mb-8 tracking-tight">
           Student Forum
         </h2>
 
-        <ul className="space-y-4 text-lg font-medium">
-          <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
+        <ul className="space-y-3 text-base font-medium">
+          <li className="cursor-pointer px-3 py-2 rounded-xl bg-[#2a9d8f]/10 text-[#2a9d8f] transition">
             Home
           </li>
           <li
             onClick={() => navigate("/about")}
-            className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition"
+            className="cursor-pointer px-3 py-2 rounded-xl hover:bg-gray-100 transition"
           >
             About Us
           </li>
           <li
             onClick={() => navigate("/resources")}
-            className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition"
+            className="cursor-pointer px-3 py-2 rounded-xl hover:bg-gray-100 transition"
           >
             Share Resources
           </li>
           <li
             onClick={() => navigate("/discussion-room")}
-            className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition"
+            className="cursor-pointer px-3 py-2 rounded-xl hover:bg-gray-100 transition"
           >
             Discussion Rooms
           </li>
 
-          <li className="cursor-pointer px-2 py-2 rounded-lg hover:bg-orange-100 hover:text-orange-600 transition">
+          <li className="pt-4 border-t mt-4">
             <div className="flex flex-col gap-2">
-              <span className="font-medium">Settings</span>
+              <span className="text-xs font-bold uppercase text-gray-400 px-3">Account</span>
               <button
                 onClick={handleLogout}
-                className="text-left bg-orange-500 text-white px-3 py-2 rounded-lg hover:bg-orange-600 transition text-sm"
+                className="w-full text-left px-3 py-2 rounded-xl text-red-500 hover:bg-red-50 transition font-medium"
               >
                 Logout
               </button>
@@ -392,47 +387,47 @@ function Home() {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-6 md:p-10">
+      <main className="flex-1 p-6 md:p-10 max-w-4xl mx-auto w-full">
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">
               Welcome, Student 👋
             </h1>
-            <p className="text-sm text-gray-500">
-              Stay updated and connect with your classmates
+            <p className="text-sm text-gray-500 mt-1">
+              Connect and collaborate with your peers.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 bg-white p-2 pr-4 rounded-full border shadow-sm">
             <img
               src="https://i.pravatar.cc/40"
               alt="avatar"
-              className="w-10 h-10 rounded-full border border-gray-300"
+              className="w-8 h-8 rounded-full ring-2 ring-[#2a9d8f]/20"
             />
-            <span className="font-medium">
+            <span className="font-semibold text-sm">
               {currentUser?.fullName || "My Profile"}
             </span>
           </div>
         </div>
 
         {/* Create Post Box */}
-        <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border p-5 mb-6">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-8">
           <textarea
-            placeholder="Share your question, thoughts or updates..."
-            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            placeholder="What's on your mind today?"
+            className="w-full border-none bg-gray-50 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#2a9d8f]/50 resize-none"
             rows={3}
             value={content}
             onChange={(e) => setContent(e.target.value)}
           />
 
-          <div className="flex justify-between mt-3">
-            <div className="text-sm text-red-500">{error && `* ${error}`}</div>
+          <div className="flex justify-between items-center mt-4">
+            <div className="text-xs text-red-500 font-medium">{error && error}</div>
 
             <button
               onClick={handleCreatePost}
               disabled={posting}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-xl font-medium transition"
+              className="bg-[#2a9d8f] hover:bg-[#238b7e] text-white px-8 py-2 rounded-xl font-bold transition-all shadow-md shadow-[#2a9d8f]/20 disabled:opacity-50"
             >
               {posting ? "Posting..." : "Post"}
             </button>
@@ -440,34 +435,39 @@ function Home() {
         </div>
 
         {/* Posts List */}
-        <div className="space-y-5 mb-8">
+        <div className="space-y-6 mb-8">
           {loadingPosts ? (
-            <div className="text-center py-8 text-gray-500">
-              Loading posts...
+            <div className="flex flex-col items-center py-20 text-gray-400">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#2a9d8f] mb-2"></div>
+              <p>Fetching conversations...</p>
             </div>
           ) : posts.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              No posts yet. Be the first to share something!
+            <div className="text-center py-16 bg-gray-50 rounded-2xl border border-dashed">
+              <p className="text-gray-500 italic">No posts yet. Start the conversation!</p>
             </div>
           ) : (
             posts.map((post) => (
               <div
                 key={post._id}
-                className={`bg-white/80 backdrop-blur-lg shadow-md border rounded-2xl p-5 transition ${
-                  post.optimistic ? "opacity-80" : ""
+                className={`bg-white shadow-sm border border-gray-100 rounded-2xl p-6 transition-all hover:border-[#2a9d8f]/30 ${
+                  post.optimistic ? "opacity-60" : ""
                 }`}
               >
-                <div className="flex justify-between mb-2">
-                  <h3 className="font-semibold text-gray-800">
-                    {post.author?.fullName || "Unknown"}
-                  </h3>
-                  <span className="text-sm text-gray-500">
-                    {new Date(post.createdAt).toLocaleString()}
-                  </span>
+                <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-[#2a9d8f]/10 flex items-center justify-center text-[#2a9d8f] font-bold">
+                        {post.author?.fullName?.charAt(0) || "U"}
+                    </div>
+                    <div>
+                        <h3 className="font-bold text-gray-900 leading-none">
+                            {post.author?.fullName || "Anonymous"}
+                        </h3>
+                        <span className="text-[11px] text-gray-400 uppercase tracking-wider font-semibold">
+                            {new Date(post.createdAt).toLocaleDateString()} at {new Date(post.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                        </span>
+                    </div>
                 </div>
 
-                {/* content with clickable URLs */}
-                <div className="text-gray-700 mb-4 leading-relaxed">
+                <div className="text-gray-700 mb-5 leading-relaxed text-[15px]">
                   {String(post.content || "")
                     .split("\n")
                     .map((line, idx) => {
@@ -483,7 +483,7 @@ function Home() {
                               href={url}
                               target="_blank"
                               rel="noreferrer"
-                              className="text-orange-600 underline"
+                              className="text-[#2a9d8f] font-medium hover:underline"
                             >
                               {url}
                             </a>
@@ -495,52 +495,58 @@ function Home() {
                     })}
                 </div>
 
-                {/* attachments (if any) */}
+                {/* attachments */}
                 {post.attachments && post.attachments.length > 0 && (
-                  <div className="mt-2 grid grid-cols-2 gap-3">
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                     {post.attachments.map((a, i) => (
                       <div
                         key={i}
-                        className="border rounded-md p-2 bg-white/90"
+                        className="border rounded-xl p-2 bg-gray-50 hover:bg-gray-100 transition"
                       >
                         {a.mimeType.startsWith("image/") ? (
                           <img
                             src={buildAbsolute(a.url)}
                             alt={a.originalName}
-                            className="w-full h-40 object-cover rounded"
+                            className="w-full h-44 object-cover rounded-lg"
                           />
-                        ) : a.mimeType === "application/pdf" ? (
-                          <div className="flex items-center justify-between">
-                            <a
-                              href={buildAbsolute(a.url)}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="text-sm text-orange-600 underline"
-                            >
-                              View PDF
-                            </a>
-                            <span className="text-xs text-gray-500">
+                        ) : (
+                          <div className="flex items-center justify-between p-2">
+                             <div className="flex items-center gap-2">
+                                <span className="text-xl">📄</span>
+                                <a
+                                href={buildAbsolute(a.url)}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-sm font-semibold text-[#2a9d8f] truncate max-w-[150px]"
+                                >
+                                {a.originalName || "View PDF"}
+                                </a>
+                             </div>
+                            <span className="text-[10px] bg-gray-200 px-2 py-1 rounded-md font-bold text-gray-500">
                               {(a.size / 1024).toFixed(0)} KB
                             </span>
                           </div>
-                        ) : null}
+                        )}
                       </div>
                     ))}
                   </div>
                 )}
 
-                {/* Actions: Like and Comment */}
-                <div className="mt-4 flex items-center justify-between">
-                  <div className="flex items-center gap-4">
+                <div className="mt-4 pt-4 border-t flex items-center justify-between">
+                  <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleToggleLike(post)}
                       disabled={!!likePending[post._id]}
-                      className={`flex items-center gap-2 px-3 py-1 rounded-lg ${
-                        post.likedByMe ? "bg-orange-100" : "hover:bg-gray-100"
-                      } transition`}
+                      className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold transition ${
+                        post.likedByMe 
+                        ? "bg-[#2a9d8f] text-white" 
+                        : "bg-gray-50 text-gray-600 hover:bg-gray-100"
+                      }`}
                     >
-                      <span>👍</span>
-                      <span>{post.likesCount || 0}</span>
+                      <span>{post.likedByMe ? "Liked" : "Like"}</span>
+                      <span className={post.likedByMe ? "text-white/80" : "text-gray-400"}>
+                        {post.likesCount || 0}
+                      </span>
                     </button>
 
                     <button
@@ -550,44 +556,40 @@ function Home() {
                           [post._id]: !s[post._id],
                         }))
                       }
-                      className="flex items-center gap-2 px-3 py-1 rounded-lg hover:bg-gray-100 transition"
+                      className="flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold text-gray-600 hover:bg-gray-50 transition"
                     >
-                      <span>💬</span>
-                      <span>{post.commentsCount || 0}</span>
+                      <span>Discuss</span>
+                      <span className="text-gray-400">{post.commentsCount || 0}</span>
                     </button>
-                  </div>
-
-                  <div className="text-sm text-gray-400">
-                    {post.optimistic ? "Posting..." : ""}
                   </div>
                 </div>
 
                 {/* Comments section */}
                 {showComments[post._id] && (
-                  <div className="mt-4 border-t pt-4">
-                    <div className="space-y-3 mb-3">
+                  <div className="mt-4 bg-gray-50 rounded-xl p-4">
+                    <div className="space-y-4 mb-4">
                       {(post.comments || []).length === 0 ? (
-                        <div className="text-sm text-gray-500">
-                          No comments yet.
+                        <div className="text-xs text-center text-gray-400 py-2">
+                          No thoughts yet. Be the first!
                         </div>
                       ) : (
                         (post.comments || []).map((c) => (
-                          <div key={c._id || c.createdAt} className="text-sm">
-                            <div className="flex items-center gap-2">
-                              <div className="font-medium text-gray-800">
-                                {c.author?.fullName || "Unknown"}
-                              </div>
-                              <div className="text-gray-400 text-xs">
-                                {new Date(c.createdAt).toLocaleString()}
-                              </div>
+                          <div key={c._id || c.createdAt} className="bg-white p-3 rounded-xl border border-gray-100 shadow-sm">
+                            <div className="flex items-center justify-between mb-1">
+                                <span className="font-bold text-xs text-[#2a9d8f]">
+                                    {c.author?.fullName || "User"}
+                                </span>
+                                <span className="text-[10px] text-gray-400">
+                                    {new Date(c.createdAt).toLocaleDateString()}
+                                </span>
                             </div>
-                            <div className="text-gray-700">{c.content}</div>
+                            <div className="text-sm text-gray-700">{c.content}</div>
                           </div>
                         ))
                       )}
                     </div>
 
-                    <div className="flex gap-2 items-start">
+                    <div className="flex gap-2">
                       <input
                         type="text"
                         value={commentText[post._id] || ""}
@@ -597,15 +599,15 @@ function Home() {
                             [post._id]: e.target.value,
                           }))
                         }
-                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="flex-1 border-none rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-[#2a9d8f]/40"
                         placeholder="Write a comment..."
                       />
                       <button
                         onClick={() => handleAddComment(post)}
                         disabled={!!commentPending[post._id]}
-                        className="bg-orange-500 text-white px-4 py-2 rounded-lg"
+                        className="bg-[#2a9d8f] text-white px-4 py-2 rounded-lg text-sm font-bold"
                       >
-                        {commentPending[post._id] ? "..." : "Comment"}
+                        {commentPending[post._id] ? "..." : "Send"}
                       </button>
                     </div>
                   </div>
@@ -616,158 +618,150 @@ function Home() {
         </div>
 
         {/* Pagination */}
-        <div className="mt-8 flex justify-center items-center gap-4">
+        <div className="mt-8 flex justify-center items-center gap-6 pb-10">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-100 disabled:opacity-40"
+            className="p-2 text-gray-400 hover:text-[#2a9d8f] disabled:opacity-30 transition"
           >
-            Previous
+             &larr; Previous
           </button>
-          <span className="font-medium">Page {page}</span>
+          <div className="h-8 w-8 bg-[#2a9d8f] text-white rounded-lg flex items-center justify-center font-bold text-sm shadow-md shadow-[#2a9d8f]/30">
+            {page}
+          </div>
           <button
             onClick={() => setPage((p) => p + 1)}
-            className="px-4 py-2 border rounded-lg hover:bg-gray-100"
+            className="p-2 text-gray-400 hover:text-[#2a9d8f] transition"
           >
-            Next
+            Next &rarr;
           </button>
         </div>
       </main>
 
-      {/* Right Sidebar - Resources + Announcements */}
-      <aside className="hidden xl:block w-96 border-l bg-white/70 backdrop-blur-lg p-6 space-y-6">
-        {/* Announcements */}
+      {/* Right Sidebar */}
+      <aside className="hidden xl:block w-80 border-l bg-white/40 backdrop-blur-md p-6 space-y-8">
         <div>
-          <h2 className="text-xl font-bold mb-4 text-gray-800">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-4">
             Announcements
           </h2>
-          <div className="bg-gray-100 rounded-xl p-4 text-gray-700 mb-6">
+          <div className="bg-[#2a9d8f]/5 rounded-2xl p-4 border border-[#2a9d8f]/10 text-gray-600 text-sm italic">
             No new announcements
           </div>
         </div>
 
         {/* Upload Resource */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border">
-          <h3 className="font-semibold mb-2">Upload Resource</h3>
+        <div className="bg-white rounded-2xl p-5 shadow-sm border border-gray-100">
+          <h3 className="font-bold text-sm mb-4 flex items-center gap-2">
+              <span className="text-[#2a9d8f]">📁</span> Upload Resource
+          </h3>
 
-          <div className="mb-2">
-            <input
-              type="file"
-              accept="image/*,application/pdf"
-              onChange={handleResourceFileChange}
-            />
-          </div>
+          <div className="space-y-3">
+            <div className="relative group">
+                <input
+                type="file"
+                accept="image/*,application/pdf"
+                onChange={handleResourceFileChange}
+                className="text-[11px] file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-[#2a9d8f]/10 file:text-[#2a9d8f] hover:file:bg-[#2a9d8f]/20 cursor-pointer"
+                />
+            </div>
 
-          <div className="mb-2">
             <input
               value={resTitle}
               onChange={(e) => setResTitle(e.target.value)}
-              placeholder="Title"
-              className="w-full border px-3 py-2 rounded"
+              placeholder="Give it a title..."
+              className="w-full bg-gray-50 border-none px-3 py-2 rounded-lg text-sm focus:ring-2 focus:ring-[#2a9d8f]/40"
             />
-          </div>
 
-          <div className="mb-2">
             <textarea
               value={resDesc}
               onChange={(e) => setResDesc(e.target.value)}
-              placeholder="Description (optional)"
-              className="w-full border px-3 py-2 rounded"
+              placeholder="Brief description..."
+              className="w-full bg-gray-50 border-none px-3 py-2 rounded-lg text-sm focus:ring-2 focus:ring-[#2a9d8f]/40 resize-none"
+              rows={2}
             />
-          </div>
 
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-red-500">{resError}</div>
-            <button
-              onClick={handleUploadResource}
-              disabled={uploadingRes}
-              className="bg-orange-500 text-white px-3 py-1 rounded"
-            >
-              {uploadingRes ? "Uploading..." : "Upload"}
-            </button>
+            <div className="flex flex-col gap-2">
+              <button
+                onClick={handleUploadResource}
+                disabled={uploadingRes}
+                className="w-full bg-[#2a9d8f] text-white py-2 rounded-xl text-sm font-bold shadow-lg shadow-[#2a9d8f]/10 transition active:scale-95"
+              >
+                {uploadingRes ? "Processing..." : "Publish Resource"}
+              </button>
+              {resError && <div className="text-[10px] text-red-500 font-medium text-center">{resError}</div>}
+            </div>
           </div>
         </div>
 
         {/* Resources List */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border">
-          <div className="flex justify-between items-center mb-3">
-            <h3 className="font-semibold">Resources</h3>
-            <div className="text-xs text-gray-500">Page {resPage}</div>
+        <div>
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xs font-bold uppercase tracking-widest text-gray-400">
+                Recent Library
+            </h2>
+            <span className="text-[10px] bg-gray-100 px-2 py-0.5 rounded text-gray-500">Pg {resPage}</span>
           </div>
 
           {loadingResources ? (
-            <div className="text-sm text-gray-500">Loading resources...</div>
+            <div className="text-xs text-center py-4">Loading library...</div>
           ) : resources.length === 0 ? (
-            <div className="text-sm text-gray-500">No resources yet.</div>
+            <div className="text-xs text-center py-4 text-gray-400">Empty library.</div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-4">
               {resources.map((r) => (
                 <div
                   key={r._id}
-                  className="flex items-start gap-3 border-b pb-3"
+                  className="group bg-white rounded-xl p-3 border border-gray-100 hover:shadow-md transition"
                 >
-                  <div className="w-16 h-16 bg-gray-100 rounded overflow-hidden flex items-center justify-center">
-                    {r.mimeType?.startsWith("image/") ? (
-                      <img
-                        src={`${API}${r.url}`}
-                        alt={r.title}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="text-3xl">📄</div>
-                    )}
+                  <div className="flex gap-3 mb-3">
+                    <div className="w-12 h-12 bg-gray-50 rounded-lg flex-shrink-0 flex items-center justify-center overflow-hidden">
+                        {r.mimeType?.startsWith("image/") ? (
+                        <img
+                            src={`${API}${r.url}`}
+                            alt={r.title}
+                            className="w-full h-full object-cover"
+                        />
+                        ) : (
+                        <span className="text-xl">📄</span>
+                        )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                        <div className="font-bold text-xs text-gray-800 truncate">{r.title}</div>
+                        <div className="text-[10px] text-gray-400 truncate italic">{r.originalName}</div>
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-medium">{r.title}</div>
-                        <div className="text-xs text-gray-500">
-                          {r.originalName}
-                        </div>
-                      </div>
-                      <div className="text-xs text-gray-400">
-                        {new Date(r.createdAt).toLocaleDateString()}
-                      </div>
-                    </div>
-                    {r.description && (
-                      <div className="text-sm text-gray-700 mt-1">
-                        {r.description}
-                      </div>
-                    )}
 
-                    <div className="mt-2 flex gap-2">
-                      <button
-                        onClick={() => handleDownloadResource(r)}
-                        className="text-sm px-2 py-1 rounded border bg-white hover:bg-gray-50"
-                      >
-                        Download
-                      </button>
-                      <button
-                        onClick={() => handleShareResource(r._id)}
-                        className="text-sm px-2 py-1 rounded bg-orange-500 text-white"
-                      >
-                        Share
-                      </button>
-                    </div>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleDownloadResource(r)}
+                      className="flex-1 text-[10px] font-bold py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition"
+                    >
+                      Download
+                    </button>
+                    <button
+                      onClick={() => handleShareResource(r._id)}
+                      className="flex-1 text-[10px] font-bold py-1.5 rounded-lg bg-[#2a9d8f] text-white hover:bg-[#238b7e] transition"
+                    >
+                      Share
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           )}
 
-          {/* resources pagination */}
-          <div className="mt-3 flex justify-between items-center">
+          <div className="mt-4 flex justify-between">
             <button
               onClick={() => setResPage((p) => Math.max(1, p - 1))}
-              className="px-3 py-1 border rounded text-sm"
+              className="text-[10px] font-bold text-gray-400 hover:text-[#2a9d8f]"
             >
-              Prev
+              &larr; Prev
             </button>
             <button
               onClick={() => setResPage((p) => p + 1)}
-              className="px-3 py-1 border rounded text-sm"
+              className="text-[10px] font-bold text-gray-400 hover:text-[#2a9d8f]"
             >
-              Next
+              Next &rarr;
             </button>
           </div>
         </div>
