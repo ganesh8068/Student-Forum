@@ -70,7 +70,7 @@ function ForgotPassword() {
     <div
       className="flex items-center justify-center min-h-screen p-5"
       style={{
-        backgroundColor: "var(--bg)",
+        backgroundColor: "#ECF6F5",
       }}
     >
       <div
