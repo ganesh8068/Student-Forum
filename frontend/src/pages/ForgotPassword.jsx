@@ -70,13 +70,13 @@ function ForgotPassword() {
     <div
       className="flex items-center justify-center min-h-screen p-5"
       style={{
-        backgroundColor: "var(--bg)",
+        backgroundColor: "#ECF6F5",
       }}
     >
       <div
         className="w-full max-w-md rounded-2xl p-8 shadow-xl backdrop-blur-md"
         style={{
-          backgroundColor: "var(--card)",
+          backgroundColor: "#ECF6F5",
           border: "1px solid rgba(0,0,0,0.05)"
         }}
       >

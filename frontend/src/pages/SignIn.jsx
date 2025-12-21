@@ -70,7 +70,7 @@ function SignIn() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{ backgroundColor: "var(--bg)" }}
+      style={{ backgroundColor: "#ECF6F5" }}
     >
       <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
 

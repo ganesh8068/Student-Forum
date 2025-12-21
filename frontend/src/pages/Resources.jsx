@@ -102,161 +102,168 @@ function Resources() {
   const resolveUrl = (u) => (u?.startsWith("http") ? u : `${API}${u}`);
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Resources</h1>
+    <div className="" style={{ backgroundColor: "#ECF6F5" }}>
+      <div className="p-6 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold mb-4">Resources</h1>
 
-      <div className="mb-4 flex gap-2">
-        <input
-          placeholder="Search resources..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 border px-3 py-2 rounded"
-        />
-        <button onClick={() => setPage(1)} className="px-3 py-2 border rounded">
-          Search
-        </button>
-      </div>
-
-      {/* Upload box */}
-      <div className="border rounded-lg p-4 mb-6 bg-white/80">
-        <div className="mb-2">
-          <label className="block text-sm font-medium mb-1">File</label>
+        <div className="mb-4 flex gap-2">
           <input
-            type="file"
-            accept="image/*,application/pdf"
-            onChange={onFileChange}
+            placeholder="Search resources..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="flex-1 border px-3 py-2 rounded"
           />
-        </div>
-
-        <div className="mb-2">
-          <label className="block text-sm font-medium mb-1">Title</label>
-          <input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-
-        <div className="mb-2">
-          <label className="block text-sm font-medium mb-1">
-            Description (optional)
-          </label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full border px-3 py-2 rounded"
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-red-500">{error}</div>
           <button
-            onClick={handleUpload}
-            disabled={uploading}
-            className="bg-orange-500 text-white px-4 py-2 rounded"
+            onClick={() => setPage(1)}
+            className="px-3 py-2 border rounded"
           >
-            {uploading ? "Uploading..." : "Upload Resource"}
+            Search
           </button>
         </div>
-      </div>
 
-      {/* List */}
-      {loading ? (
-        <div>Loading resources...</div>
-      ) : resources.length === 0 ? (
-        <div>No resources yet.</div>
-      ) : (
-        <div className="space-y-4">
-          {resources
-            .filter((r) =>
-              [r.title, r.originalName, r.description]
-                .filter(Boolean)
-                .join(" ")
-                .toLowerCase()
-                .includes(query.toLowerCase())
-            )
-            .map((r) => (
-              <div
-                key={r._id}
-                className="p-4 border rounded bg-white/80 flex justify-between items-start gap-4"
-              >
-                <div className="flex-1">
-                  <div className="flex items-start gap-3">
-                    <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
-                      {r.mimeType?.startsWith("image/") ? (
-                        <img
-                          src={resolveUrl(r.url)}
-                          alt={r.title}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="text-3xl">📄</div>
-                      )}
-                    </div>
+        {/* Upload box */}
+        <div className="border rounded-lg p-4 mb-6 bg-white/80">
+          <div className="mb-2">
+            <label className="block text-sm font-medium mb-1">File</label>
+            <input
+              type="file"
+              accept="image/*,application/pdf"
+              onChange={onFileChange}
+            />
+          </div>
 
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start gap-4">
-                        <div>
-                          <div className="font-semibold text-lg">{r.title}</div>
-                          <div className="text-sm text-gray-500">
-                            {r.originalName}
-                          </div>
-                          <div className="text-xs text-gray-400">
-                            Uploaded by: {r.uploader?.fullName || "Unknown"}
-                          </div>
-                        </div>
+          <div className="mb-2">
+            <label className="block text-sm font-medium mb-1">Title</label>
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+            />
+          </div>
 
-                        <div className="text-right text-xs text-gray-400">
-                          {new Date(r.createdAt).toLocaleString()}
-                          <div>{(r.size / 1024).toFixed(0)} KB</div>
-                        </div>
+          <div className="mb-2">
+            <label className="block text-sm font-medium mb-1">
+              Description (optional)
+            </label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full border px-3 py-2 rounded"
+            />
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="text-sm text-red-500">{error}</div>
+            <button
+              onClick={handleUpload}
+              disabled={uploading}
+              className="bg-orange-500 text-white px-4 py-2 rounded"
+            >
+              {uploading ? "Uploading..." : "Upload Resource"}
+            </button>
+          </div>
+        </div>
+
+        {/* List */}
+        {loading ? (
+          <div>Loading resources...</div>
+        ) : resources.length === 0 ? (
+          <div>No resources yet.</div>
+        ) : (
+          <div className="space-y-4">
+            {resources
+              .filter((r) =>
+                [r.title, r.originalName, r.description]
+                  .filter(Boolean)
+                  .join(" ")
+                  .toLowerCase()
+                  .includes(query.toLowerCase())
+              )
+              .map((r) => (
+                <div
+                  key={r._id}
+                  className="p-4 border rounded bg-white/80 flex justify-between items-start gap-4"
+                >
+                  <div className="flex-1">
+                    <div className="flex items-start gap-3">
+                      <div className="w-20 h-20 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center">
+                        {r.mimeType?.startsWith("image/") ? (
+                          <img
+                            src={resolveUrl(r.url)}
+                            alt={r.title}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="text-3xl">📄</div>
+                        )}
                       </div>
 
-                      {r.description && (
-                        <div className="mt-2 text-sm text-gray-700">
-                          {r.description}
+                      <div className="flex-1">
+                        <div className="flex justify-between items-start gap-4">
+                          <div>
+                            <div className="font-semibold text-lg">
+                              {r.title}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {r.originalName}
+                            </div>
+                            <div className="text-xs text-gray-400">
+                              Uploaded by: {r.uploader?.fullName || "Unknown"}
+                            </div>
+                          </div>
+
+                          <div className="text-right text-xs text-gray-400">
+                            {new Date(r.createdAt).toLocaleString()}
+                            <div>{(r.size / 1024).toFixed(0)} KB</div>
+                          </div>
                         </div>
-                      )}
+
+                        {r.description && (
+                          <div className="mt-2 text-sm text-gray-700">
+                            {r.description}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col gap-2">
-                  <a
-                    href={resolveUrl(r.url)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-2 rounded bg-white border text-sm hover:bg-gray-50"
-                  >
-                    View
-                  </a>
-                  <button
-                    onClick={() => handleShare(r._id)}
-                    className="px-3 py-2 rounded bg-orange-500 text-white text-sm"
-                  >
-                    Share
-                  </button>
+                  <div className="flex flex-col gap-2">
+                    <a
+                      href={resolveUrl(r.url)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-3 py-2 rounded bg-white border text-sm hover:bg-gray-50"
+                    >
+                      View
+                    </a>
+                    <button
+                      onClick={() => handleShare(r._id)}
+                      className="px-3 py-2 rounded bg-orange-500 text-white text-sm"
+                    >
+                      Share
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
+        )}
+
+        {/* Pagination controls */}
+        <div className="mt-6 flex justify-center gap-4">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            className="px-3 py-1 border rounded"
+          >
+            Prev
+          </button>
+          <span>Page {page}</span>
+          <button
+            onClick={() => setPage((p) => p + 1)}
+            className="px-3 py-1 border rounded"
+          >
+            Next
+          </button>
         </div>
-      )}
-
-      {/* Pagination controls */}
-      <div className="mt-6 flex justify-center gap-4">
-        <button
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
-          className="px-3 py-1 border rounded"
-        >
-          Prev
-        </button>
-        <span>Page {page}</span>
-        <button
-          onClick={() => setPage((p) => p + 1)}
-          className="px-3 py-1 border rounded"
-        >
-          Next
-        </button>
       </div>
     </div>
   );
