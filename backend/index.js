@@ -13,11 +13,22 @@ import aiRouter from "./routes/ai.routes.js";
 
 const app = express();
 
-const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || "https://student-forum-f.onrender.com";
+const FRONTEND_ORIGIN =
+  process.env.FRONTEND_ORIGIN || "https://student-forum-f.onrender.com";
+
+const allowedOrigins = [
+  FRONTEND_ORIGIN,
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+].filter(Boolean);
 
 app.use(
   cors({
-    origin: FRONTEND_ORIGIN,
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
   })
 );
@@ -34,7 +45,7 @@ app.use("/api/ai", aiRouter);
 const port = process.env.PORT || 3000;
 
 async function start() {
-  await dbConnect(); 
+  await dbConnect();
   app.listen(port, () => {
     console.log(`Server started on port ${port}`);
   });
