@@ -6,7 +6,7 @@ function AboutUs() {
   return (
     <div
       className="min-h-screen px-6 py-10"
-      style={{ backgroundColor: "var(--bg)", color: "var(--text-dark)" }}
+      style={{ backgroundColor: "#ECF6F5"", color: "var(--text-dark)" }}
     >
       <div
         className="max-w-5xl mx-auto rounded-2xl p-10 shadow-xl fade-in-up"
