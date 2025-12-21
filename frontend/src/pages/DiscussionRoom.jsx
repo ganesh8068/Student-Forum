@@ -73,7 +73,7 @@ function DiscussionRoom() {
   return (
     <div
       className="min-h-screen flex flex-col"
-      style={{ backgroundColor: "var(--bg)" }}
+      style={{ backgroundColor: "#ECF6F5" }}
     >
       {/* Top bar */}
       <header
