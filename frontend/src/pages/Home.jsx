@@ -346,7 +346,7 @@ function Home() {
       {/* Left Sidebar */}
       <aside className="hidden md:flex flex-col w-64 border-r bg-white/80 backdrop-blur-lg shadow-sm p-6">
         <h2 className="text-2xl font-bold text-[#2a9d8f] mb-8 tracking-tight">
-          Student Forum
+          Student Forum and Community 
         </h2>
 
         <ul className="space-y-3 text-base font-medium">
